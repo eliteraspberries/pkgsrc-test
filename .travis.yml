@@ -1,18 +1,31 @@
 language: c
-matrix:
-  include:
-    - os: linux
-      dist: trusty
-      sudo: false
-      compiler: clang
-    - os: osx
-      compiler: clang
+os:
+  - linux
+  - osx
+compiler:
+  - gcc
+  - clang
+env:
+  - PKGSRC_VERSION=2015Q3
+  - PKGSRC_VERSION=2015Q4
+  - PKGSRC_VERSION=2016Q1
+  - PKGSRC_VERSION=2016Q2
+  - PKGSRC_VERSION=2016Q4
 script:
-  - curl -O http://cdn.netbsd.org/pub/pkgsrc/stable/pkgsrc.tar.bz2
+  - export SH=/bin/bash
+  - curl -O https://s3.amazonaws.com/minipkg.eliteraspberries.com/pkgsrc-${PKGSRC_VERSION}.tar.gz
   - mkdir -p usr
-  - bunzip2 < pkgsrc.tar.bz2 | tar -f - -x -C usr
+  - gunzip < pkgsrc-${PKGSRC_VERSION}.tar.gz | tar -f - -x -C usr
   - cd usr/pkgsrc
-  - ./bootstrap/bootstrap --abi 64 --compiler clang --mk-fragment $HOME/eliteraspberries/pkgsrc-test/mk.conf --unprivileged
+  - >
+    ./bootstrap/bootstrap
+    --abi 64
+    --compiler $CC
+    --mk-fragment ../../mk.conf
+    --unprivileged
+    --prefer-pkgsrc no
 after_success:
   - export PATH="$HOME/pkg/sbin:$PATH"
   - pkg_info
+after_failure:
+  - cat work/wrk/devel/bmake/work/libnbcompat/config.log
