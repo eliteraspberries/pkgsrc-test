@@ -11,6 +11,7 @@ env:
   - PKGSRC_VERSION=2016Q1
   - PKGSRC_VERSION=2016Q2
   - PKGSRC_VERSION=2016Q4
+  - PKGSRC_VERSION=2017Q2
 script:
   - export SH=/bin/bash
   - curl -O https://s3.amazonaws.com/minipkg.eliteraspberries.com/pkgsrc-${PKGSRC_VERSION}.tar.gz
