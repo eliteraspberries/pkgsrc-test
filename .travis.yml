@@ -17,6 +17,14 @@ env:
   - PKGSRC_VERSION=2017Q4
 script:
   - export SH=/bin/bash
+  - >
+    if test "${CC}" = "gcc"; then for version in 6 5 4.9 4.8; do
+        gcc-${version} --version;
+        if test "$?" = "0"; then
+            export CC="gcc-${version}" CXX="g++-${version}";
+            break;
+        fi;
+    done; fi
   - curl -O https://s3.amazonaws.com/minipkg.eliteraspberries.com/pkgsrc-${PKGSRC_VERSION}.tar.gz
   - mkdir -p usr
   - gunzip < pkgsrc-${PKGSRC_VERSION}.tar.gz | tar -f - -x -C usr
