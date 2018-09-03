@@ -43,5 +43,3 @@ script:
 after_success:
   - export PATH="$HOME/pkg/sbin:$PATH"
   - pkg_info
-after_failure:
-  - cat work/wrk/devel/bmake/work/libnbcompat/config.log
