@@ -13,6 +13,7 @@ env:
   - PKGSRC_VERSION=2018Q1
   - PKGSRC_VERSION=2018Q2
 script:
+  - export GITHUB=https://github.com/eliteraspberries/pkgsrc-test
   - export SH=/bin/bash
   - >
     if test "${CC}" = "gcc"; then for version in 6 5 4.9 4.8; do
@@ -22,13 +23,13 @@ script:
             break;
         fi;
     done; fi
-  - curl -O https://s3.amazonaws.com/minipkg.eliteraspberries.com/pkgsrc-${PKGSRC_VERSION}.tar.gz
+  - curl -O ${GITHUB}/releases/download/0.1/pkgsrc-${PKGSRC_VERSION}.tar.gz
   - mkdir -p usr
   - gunzip < pkgsrc-${PKGSRC_VERSION}.tar.gz | tar -f - -x -C usr
   - cd usr/pkgsrc
   - >
     for patch in patch-bsd.prefs.mk patch-bsd.sys.mk patch-compiler.mk; do
-        curl -O https://s3.amazonaws.com/minipkg.eliteraspberries.com/$patch;
+        curl -O ${GITHUB}/releases/download/0.1/$patch;
         patch -p0 < $patch || true;
         find . -name '*.orig' | xargs rm -f;
         find . -name '*.rej' | xargs rm -f;
