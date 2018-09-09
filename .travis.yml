@@ -30,7 +30,7 @@ script:
   - >
     for patch in patch-bootstrap patch-bsd.prefs.mk patch-compiler.mk; do
         curl -L -O ${GITHUB}/releases/download/0.1/$patch;
-        patch -p0 < $patch || true;
+        patch -f -p0 < $patch || true;
     done
   - >
     ./bootstrap/bootstrap
