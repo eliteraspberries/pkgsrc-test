@@ -31,8 +31,6 @@ script:
     for patch in patch-bsd.prefs.mk patch-bsd.sys.mk patch-compiler.mk; do
         curl -L -O ${GITHUB}/releases/download/0.1/$patch;
         patch -p0 < $patch || true;
-        find . -name '*.orig' | xargs rm -f;
-        find . -name '*.rej' | xargs rm -f;
     done
   - >
     ./bootstrap/bootstrap
