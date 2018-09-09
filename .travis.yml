@@ -28,7 +28,7 @@ script:
   - gunzip < pkgsrc-${PKGSRC_VERSION}.tar.gz | tar -f - -x -C usr
   - cd usr/pkgsrc
   - >
-    for patch in patch-bsd.prefs.mk patch-bsd.sys.mk patch-compiler.mk; do
+    for patch in patch-bootstrap patch-bsd.prefs.mk patch-bsd.sys.mk patch-compiler.mk; do
         curl -L -O ${GITHUB}/releases/download/0.1/$patch;
         patch -p0 < $patch || true;
     done
